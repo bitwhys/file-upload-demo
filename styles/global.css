@@ -1,0 +1,116 @@
+@import '@radix-ui/colors/slate.css';
+@import '@radix-ui/colors/slate-dark.css';
+@import '@radix-ui/colors/mint.css';
+@import '@radix-ui/colors/mint-dark.css';
+@import '@radix-ui/colors/pink.css';
+@import '@radix-ui/colors/pink-dark.css';
+@import '@radix-ui/colors/teal.css';
+@import '@radix-ui/colors/teal-dark.css';
+@import '@radix-ui/colors/indigo.css';
+@import '@radix-ui/colors/indigo-dark.css';
+@import '@radix-ui/colors/cyan.css';
+@import '@radix-ui/colors/cyan-dark.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: var(--slate-1);
+    --background-inverted: var(--slate-12);
+    --foreground: var(--slate-12);
+    --foreground-inverted: var(--slate-1);
+
+    --muted: var(--slate-3);
+    --muted-foreground: 25 5.3% 44.7%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 20 14.3% 4.1%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 20 14.3% 4.1%;
+
+    --border: var(--slate-7);
+    --input: var(--slate-7);
+    --border-accent: var(--slate-8);
+
+    --primary: var(--teal-12);
+    --primary-foreground: var(--teal-1);
+
+    --secondary: var(--mint-9);
+    --secondary-foreground: var(--mint-12);
+    --secondary-muted: var(--mint-3);
+    --info: var(--indigo-9);
+    --info-foreground: var(--indigo-12);
+    --info-muted: var(--indigo-3);
+
+    --accent: var(--slate-4);
+    --accent-foreground: 24 9.8% 10%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --ring: var(--slate-7);
+
+    --radius: 1.25rem;
+  }
+
+  .dark {
+    --background: 20 14.3% 4.1%;
+    --foreground: 60 9.1% 97.8%;
+
+    --muted: 12 6.5% 15.1%;
+    --muted-foreground: 24 5.4% 63.9%;
+
+    --popover: 20 14.3% 4.1%;
+    --popover-foreground: 60 9.1% 97.8%;
+
+    --card: 20 14.3% 4.1%;
+    --card-foreground: 60 9.1% 97.8%;
+
+    --primary: 60 9.1% 97.8%;
+    --primary-foreground: 24 9.8% 10%;
+
+    --secondary: 12 6.5% 15.1%;
+    --secondary-foreground: 60 9.1% 97.8%;
+
+    --accent: 12 6.5% 15.1%;
+    --accent-foreground: 60 9.1% 97.8%;
+
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 0 85.7% 97.3%;
+  }
+}
+
+:root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  /*color: rgb(var(--foreground-rgb));*/
+  /*background: linear-gradient(*/
+  /*        to bottom,*/
+  /*        transparent,*/
+  /*        rgb(var(--background-end-rgb))*/
+  /*)*/
+  /*rgb(var(--background-start-rgb));*/
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
