@@ -2,12 +2,15 @@
 import Header from '@/components/header'
 import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card'
 import Footer from '@/components/footer'
-import { MixerHorizontalIcon, Pencil1Icon, DragHandleHorizontalIcon } from '@radix-ui/react-icons'
+import { MixerHorizontalIcon, Pencil1Icon, DragHandleHorizontalIcon, PlusIcon } from '@radix-ui/react-icons'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { FileUpload } from '@/components/file-upload'
 import { Button } from '@/components/ui/button'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
 
 type DownloadItem = {
   id: string | number
@@ -109,21 +112,38 @@ const people = [
   },
 ]
 
-function RecentDownloads() {
+const EmptyRecentDownloads = () => {
   return (
-    <div className="flex w-full flex-col justify-items-center gap-y-2">
+    <>
+      <div className="text-center">
+        <h3 className="mt-2 text-sm font-semibold text-gray-900">No downloads</h3>
+        <p className="mt-1 text-sm text-gray-500">Get started by uploading a new file.</p>
+        <div className="mt-6">
+          <Button variant="link">
+            <PlusIcon className="-ml-0.5 mr-1.5 h-5 w-5" aria-hidden="true" />
+            Upload new file
+          </Button>
+        </div>
+      </div>
+    </>
+  )
+}
+
+const DisplayDownloads = ({ items }) => {
+  return (
+    <>
       <ul role="list" className="divide-y divide-border">
-        {people.map(person => (
-          <li key={person.email} className="flex items-center justify-between gap-x-6 py-4">
+        {items.map(download => (
+          <li key={download.email} className="flex items-center justify-between gap-x-6 py-4">
             <div className="flex min-w-0 gap-x-4">
-              <FileIcon type={person.type} />
+              <FileIcon type={download.type} />
               <div className="min-w-0 flex-auto">
-                <p className="text-sm font-semibold leading-6">{person.name}</p>
-                <p className="mt-1 truncate text-xs leading-5 text-muted-foreground">{person.email}</p>
+                <p className="text-sm font-semibold leading-6">{download.name}</p>
+                <p className="mt-1 truncate text-xs leading-5 text-muted-foreground">{download.email}</p>
               </div>
             </div>
             <a
-              href={person.href}
+              href={download.href}
               className="rounded-full bg-white px-2.5 py-1 text-xs font-semibold shadow-sm ring-1 ring-inset ring-ring hover:bg-accent"
             >
               View
@@ -132,6 +152,14 @@ function RecentDownloads() {
         ))}
       </ul>
       <Button variant="outline">View all</Button>
+    </>
+  )
+}
+// FIXME
+function RecentDownloads({ downloads }: { downloads: any[] }) {
+  return (
+    <div className="flex w-full flex-col justify-items-center gap-y-2">
+      {downloads.length ? <DisplayDownloads items={downloads} /> : <EmptyRecentDownloads />}
     </div>
   )
 }
@@ -181,33 +209,80 @@ const DraggableElement = ({
     id: string
   }
 }) => {
+  const [data, setData] = useState({})
   const handleDragStart = evt => {
     // evt.preventDefault()
+    //   TODO: set data to state object
     // evt.dataTransfer.setData('text/plain', evt.target.innerText)
     console.log(evt)
   }
   return (
-    <div className={cn('bg-muted sm:rounded-lg', className)}>
-      <div className="px-4 py-5 sm:p-6">
-        <h3 className="text-base font-semibold leading-6">{long}</h3>
-        <div className="mt-2 max-w-xl text-sm text-muted-foreground">
-          <p>
-            {description ??
-              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur pariatur.'}
-          </p>
-        </div>
-        <div className="mt-5 flex w-full items-center justify-between">
-          <Button variant="outline" className="gap-x-2">
-            <Pencil1Icon />
-            <span>Edit data</span>
-          </Button>
-          <Button onClick={() => console.log(Date.now())} className="cursor-grab gap-x-2" onDragStart={handleDragStart}>
-            <DragHandleHorizontalIcon />
-            <span>Drag Me</span>
-          </Button>
+    <Popover>
+      <div className={cn('bg-muted sm:rounded-lg', className)}>
+        <div className="px-4 py-5 sm:p-6">
+          <h3 className="text-base font-semibold leading-6">{long}</h3>
+          <div className="mt-2 max-w-xl text-sm text-muted-foreground">
+            <p>
+              {description ??
+                'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur pariatur.'}
+            </p>
+          </div>
+          <div className="mt-5 flex w-full items-center justify-between">
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="gap-x-2">
+                <Pencil1Icon />
+                <span>Edit data</span>
+              </Button>
+            </PopoverTrigger>
+            <Button
+              onClick={() => console.log(Date.now())}
+              className="cursor-grab gap-x-2"
+              onDragStart={handleDragStart}
+              draggable
+            >
+              <DragHandleHorizontalIcon />
+              <span>Drag Me</span>
+            </Button>
+            {/*<Button*/}
+            {/*  variant="outline"*/}
+            {/*  onClick={() => console.log(Date.now())}*/}
+            {/*  className="gap-x-2 border-dashed border-[var(--slate-9)] bg-[var(--slate-8)]"*/}
+            {/*  onDragStart={handleDragStart}*/}
+            {/*  draggable*/}
+            {/*>*/}
+            {/*  /!*<DragHandleHorizontalIcon />*!/*/}
+            {/*  <span>Dragging</span>*/}
+            {/*</Button>*/}
+          </div>
         </div>
       </div>
-    </div>
+      <PopoverContent side="left" sideOffset={40} className="w-80">
+        <div className="grid gap-4">
+          <div className="space-y-2">
+            <h4 className="font-medium leading-none">Dimensions</h4>
+            <p className="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
+          </div>
+          <div className="grid gap-2">
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="width">Width</Label>
+              <Input id="width" defaultValue="100%" className="col-span-2 h-8" />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxWidth">Max. width</Label>
+              <Input id="maxWidth" defaultValue="300px" className="col-span-2 h-8" />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="height">Height</Label>
+              <Input id="height" defaultValue="25px" className="col-span-2 h-8" />
+            </div>
+            <div className="grid grid-cols-3 items-center gap-4">
+              <Label htmlFor="maxHeight">Max. height</Label>
+              <Input id="maxHeight" defaultValue="none" className="col-span-2 h-8" />
+            </div>
+          </div>
+        </div>
+      </PopoverContent>
+    </Popover>
   )
 }
 
@@ -217,7 +292,7 @@ export default function Home() {
     implementations['native'],
   )
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between  p-24">
+    <main className="flex h-screen flex-col items-center justify-between overflow-hidden  p-24">
       <Header />
       <div className="grid h-full w-full grow pt-16 lg:gap-y-12">
         <div className="mx-auto w-full max-w-sm">
@@ -256,7 +331,7 @@ export default function Home() {
                     <h2 className="text-sm font-medium leading-6 text-gray-900">Attachments</h2>
                     <div className="mt-2 text-sm text-gray-900  sm:mt-0">
                       <ul role="list" className="divide-y divide-gray-100 rounded-md">
-                        <Downloads items={items} />
+                        <Downloads items={[]} />
                       </ul>
                     </div>
                   </div>
@@ -264,12 +339,12 @@ export default function Home() {
               </TabsContent>
               <TabsContent value="recent">
                 <CardContent>
-                  <RecentDownloads />
+                  <RecentDownloads downloads={[]} />
                 </CardContent>
-                <CardFooter className="rounded-b-2xl bg-muted pt-3">
+                <CardFooter className="rounded-b-2xl  pt-3">
                   <p className="flex items-center gap-x-1 text-sm text-muted-foreground">
-                    <span>synced</span>
-                    <span className="font-medium">3hr ago</span>
+                    {/*<span>Nothing to see</span>*/}
+                    {/*<span className="font-medium">3hr ago</span>*/}
                   </p>
                 </CardFooter>
               </TabsContent>
