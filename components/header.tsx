@@ -63,7 +63,7 @@ const Header = ({}: HeaderProps) => {
         <HoverCardTrigger>
           <div
             className="mb-5 flex max-w-fit cursor-pointer items-center justify-center space-x-2 rounded-full border border-border bg-white
-            px-4 py-2 text-sm text-gray-600 shadow-1 transition-colors hover:border-[var(--pink-9)] hover:bg-[var(--pink-9)] hover:font-bold hover:text-white"
+            px-4 py-2 text-sm text-gray-600 shadow-1 transition-colors hover:bg-background-inverted hover:font-bold hover:text-foreground-inverted"
           >
             <p>Playground - #ah08s-x_28-s</p>
           </div>
@@ -88,11 +88,15 @@ const Header = ({}: HeaderProps) => {
               <li className="row-span-3">
                 <div>
                   <a
-                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-b from-muted to-muted p-6 no-underline outline-none focus:shadow-md"
+                    className="flex h-full w-full select-none flex-col justify-end rounded-md bg-gradient-to-bl from-pink-50 via-pink-500 to-pink-500 p-6 no-underline outline-none focus:shadow-md"
                     href="/"
                   >
                     {/*<Icons.logo className="h-6 w-6" />*/}
-                    <div className="mb-2 mt-4 text-lg font-medium">shadcn/ui</div>
+                    <div className="mb-2 mt-4 flex items-center gap-x-1.5 text-lg font-medium">
+                      <span>Bits</span>
+                      <span className="inline-block h-2 w-2 rounded-full bg-[var(--crimsion-9)]" />
+                      <span>Playground</span>
+                    </div>
                     <p className="text-sm leading-tight text-muted-foreground">
                       Beautifully designed components built with Radix UI and Tailwind CSS.
                     </p>

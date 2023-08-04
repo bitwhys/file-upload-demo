@@ -6,16 +6,16 @@ export default function Footer() {
       className="mb-3 mt-5 flex h-16 w-full flex-col items-center justify-between space-y-3 border-t px-3 pt-4
         text-center text-sm text-[var(--sage-9)] sm:mb-0 sm:h-20 sm:flex-row sm:pt-2 lg:max-w-5xl"
     >
-      <div className="flex items-center gap-x-3">
-        <span>Powered by </span>
+      <div className="flex items-center gap-x-2 font-mono">
+        <span>Built on open-source: </span>
         <div className="divide-x divide-border">
-          <a href="#" target="_blank" className="px-1 font-bold underline-offset-2 transition hover:underline">
-            Radix UI - Colors{' '}
+          <a href="#" target="_blank" className="px-1 font-medium underline-offset-2 transition hover:underline">
+            Radix UI / Colors{' '}
           </a>
-          <a href="#" target="_blank" className="px-1 font-bold underline-offset-2 transition hover:underline">
+          <a href="#" target="_blank" className="px-1 font-medium underline-offset-2 transition hover:underline">
             Shadcn UI
           </a>
-          <a href="#" target="_blank" className="px-1 font-bold underline-offset-2 transition hover:underline">
+          <a href="#" target="_blank" className="px-1 font-medium underline-offset-2 transition hover:underline">
             Vercel AI SDK
           </a>
         </div>

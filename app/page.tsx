@@ -171,41 +171,51 @@ function Downloads({ items }: { items: DownloadItem[] }) {
 
 const DraggableElement = ({
   className,
-  active: { title, description },
+  active: { short, long, description, id },
 }: {
   className?: string
   active: {
-    title: string
+    short: string
+    long?: string
     description?: string
     id: string
   }
-}) => (
-  <div className={cn('bg-muted sm:rounded-lg', className)}>
-    <div className="px-4 py-5 sm:p-6">
-      <h3 className="text-base font-semibold leading-6">{title}</h3>
-      <div className="mt-2 max-w-xl text-sm text-muted-foreground">
-        <p>
-          {description ??
-            'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur pariatur.'}
-        </p>
-      </div>
-      <div className="mt-5 flex w-full items-center justify-between">
-        <Button variant="outline" className="gap-x-2">
-          <Pencil1Icon />
-          <span>Edit data</span>
-        </Button>
-        <Button className="cursor-grab gap-x-2">
-          <DragHandleHorizontalIcon />
-          <span>Drag Me</span>
-        </Button>
+}) => {
+  const handleDragStart = evt => {
+    // evt.preventDefault()
+    // evt.dataTransfer.setData('text/plain', evt.target.innerText)
+    console.log(evt)
+  }
+  return (
+    <div className={cn('bg-muted sm:rounded-lg', className)}>
+      <div className="px-4 py-5 sm:p-6">
+        <h3 className="text-base font-semibold leading-6">{long}</h3>
+        <div className="mt-2 max-w-xl text-sm text-muted-foreground">
+          <p>
+            {description ??
+              'Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur pariatur.'}
+          </p>
+        </div>
+        <div className="mt-5 flex w-full items-center justify-between">
+          <Button variant="outline" className="gap-x-2">
+            <Pencil1Icon />
+            <span>Edit data</span>
+          </Button>
+          <Button onClick={() => console.log(Date.now())} className="cursor-grab gap-x-2" onDragStart={handleDragStart}>
+            <DragHandleHorizontalIcon />
+            <span>Drag Me</span>
+          </Button>
+        </div>
       </div>
     </div>
-  </div>
-)
+  )
+}
 
 export default function Home() {
   const [attemptingUpload, setAttemptingUpload] = useState(false)
-  const [activeImplementation, setActiveImplementation] = useState<{ short: string; long: string; id: string }>({})
+  const [activeImplementation, setActiveImplementation] = useState<{ short: string; long: string; id: string }>(
+    implementations['native'],
+  )
   return (
     <main className="flex min-h-screen flex-col items-center justify-between  p-24">
       <Header />
@@ -280,13 +290,13 @@ export default function Home() {
           </div>
           <div className="mx-auto grid w-full max-w-5xl grid-cols-4  gap-8">
             <DraggableElement active={activeImplementation} className="col-span-2 row-start-1" />
-            <div className="col-span-2 col-start-3 row-span-2 row-start-1 bg-white ring-1 ring-ring sm:rounded-lg">
+            <div className="col-span-2 col-start-3 row-span-2 row-start-1 bg-info-muted ring-1 ring-transparent sm:rounded-lg">
               <div className="flex h-full flex-col justify-between gap-y-4 px-4 py-5 sm:p-6">
                 <div>
-                  <h3 className="text-base font-semibold leading-6 lg:text-3xl">
+                  <h3 className="text-base font-semibold leading-6 text-info-foreground lg:text-3xl">
                     An Exploration of Drag & Drop on the web
                   </h3>
-                  <div className="mt-2 max-w-xl text-sm text-muted-foreground lg:mt-4 lg:text-xl">
+                  <div className="mt-2 max-w-xl text-sm text-[var(--indigo-12)] lg:mt-4 lg:text-xl">
                     <p>
                       Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur
                       pariatur.
@@ -294,7 +304,7 @@ export default function Home() {
                   </div>
                 </div>
                 <div>
-                  <Button variant="outline">Read post</Button>
+                  <Button variant="info">Read post</Button>
                 </div>
               </div>
             </div>
@@ -303,10 +313,7 @@ export default function Home() {
                 <div>
                   <h3 className="text-base font-semibold leading-6">With React D&D</h3>
                   <div className="mt-2 max-w-xl text-sm text-muted-foreground">
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptatibus praesentium tenetur
-                      pariatur.
-                    </p>
+                    <p>Lorem ipsum dolor sit amet consectetur.</p>
                   </div>
                 </div>
               </div>
